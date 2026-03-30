@@ -50,7 +50,7 @@ export default function Dashboard({ user, onLogout }) {
 
     const fetchDocuments = async () => {
         try {
-            const res = await fetch(`/api/documents?email=${encodeURIComponent(user.email)}`);
+            const res = await fetch(`https://backend-securepass.vercel.app/api/documents?email=${encodeURIComponent(user.email)}`);
             const data = await res.json();
             if (res.ok) {
                 setDocuments(data.documents || []);
@@ -82,7 +82,7 @@ export default function Dashboard({ user, onLogout }) {
                 encryptedAESKey
             };
 
-            const res = await fetch('/api/documents/upload', {
+            const res = await fetch('https://backend-securepass.vercel.app/api/documents/upload', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -118,7 +118,7 @@ export default function Dashboard({ user, onLogout }) {
 
         try {
             // 1. Fetch encrypted payload from server
-            const res = await fetch(`/api/documents/${docId}?email=${encodeURIComponent(user.email)}`);
+            const res = await fetch(`https://backend-securepass.vercel.app/api/documents/${docId}?email=${encodeURIComponent(user.email)}`);
             if (!res.ok) throw new Error("Failed to fetch document");
 
             const data = await res.json();
@@ -152,7 +152,7 @@ export default function Dashboard({ user, onLogout }) {
         }
 
         try {
-            const res = await fetch(`/api/documents/${docId}?email=${encodeURIComponent(user.email)}`, {
+            const res = await fetch(`https://backend-securepass.vercel.app/api/documents/${docId}?email=${encodeURIComponent(user.email)}`, {
                 method: 'DELETE'
             });
 

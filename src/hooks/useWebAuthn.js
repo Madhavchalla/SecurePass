@@ -22,7 +22,7 @@ export function useWebAuthn() {
             const currentOrigin = window.location.origin;
 
             // 2. WebAuthn Registration
-            const resp = await fetch(`/api/auth/generate-registration-options?email=${encodeURIComponent(email)}&clientOrigin=${encodeURIComponent(currentOrigin)}`);
+            const resp = await fetch(`https://backend-securepass.vercel.app/api/auth/generate-registration-options?email=${encodeURIComponent(email)}&clientOrigin=${encodeURIComponent(currentOrigin)}`);
             const options = await resp.json();
 
             if (options.error) throw new Error(options.error);
@@ -31,7 +31,7 @@ export function useWebAuthn() {
             const authResponse = await startRegistration(options);
 
             // 4. Verify on server
-            const verifyResp = await fetch('/api/auth/verify-registration', {
+            const verifyResp = await fetch('https://backend-securepass.vercel.app/api/auth/verify-registration', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, authResponse, encryptionPublicKey: pubKey, clientOrigin: currentOrigin }),
@@ -57,7 +57,7 @@ export function useWebAuthn() {
         setError(null);
         try {
             const currentOrigin = window.location.origin;
-            const resp = await fetch(`/api/auth/generate-authentication-options?email=${encodeURIComponent(email)}&clientOrigin=${encodeURIComponent(currentOrigin)}`);
+            const resp = await fetch(`https://backend-securepass.vercel.app/api/auth/generate-authentication-options?email=${encodeURIComponent(email)}&clientOrigin=${encodeURIComponent(currentOrigin)}`);
             const options = await resp.json();
 
             if (options.error) throw new Error(options.error);
@@ -65,7 +65,7 @@ export function useWebAuthn() {
             // Trigger Biometrics
             const authResponse = await startAuthentication(options);
 
-            const verifyResp = await fetch('/api/auth/verify-authentication', {
+            const verifyResp = await fetch('https://backend-securepass.vercel.app/api/auth/verify-authentication', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, authResponse, clientOrigin: currentOrigin }),
